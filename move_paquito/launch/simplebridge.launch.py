@@ -44,11 +44,12 @@ def generate_launch_description():
         pkg_launch_arg,
         ExecuteProcess(
             cmd=['gz', 'sim', '-v', verbose, world_file_name],
-            output='screen'),
+            output='screen',
+        ),
         RosGzBridge(
             bridge_name=bridge_name,
             config_file=config_file,
-            use_composition=True,
+            #use_composition=True,
             #create_own_container=False,
         ),
     ])
