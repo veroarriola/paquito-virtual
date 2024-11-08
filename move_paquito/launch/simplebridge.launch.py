@@ -5,6 +5,7 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, ExecuteProcess
+from launch_ros.actions import Node
 from launch.substitutions import LaunchConfiguration
 from ros_gz_bridge.actions import RosGzBridge
 
@@ -36,8 +37,11 @@ def generate_launch_description():
     )
 
     # Bridge
-    bridge_name = 'ros_gz_bridge'
-    config_file = 'simplebridge.yaml'
+    #bridge_name = 'ros_gz_bridge'
+    #config_file = 'simplebridge.yaml'
+    ros_topic_name='/keyboard/keypress'
+    ros_msg_type='std_msgs/msg/Int32'
+    gz_msg_type='gz.msgs.Int32'
 
     # Launch description
     ld =  LaunchDescription([
@@ -46,12 +50,18 @@ def generate_launch_description():
             cmd=['gz', 'sim', '-v', verbose, world_file_name],
             output='screen',
         ),
-        RosGzBridge(
-            bridge_name=bridge_name,
-            config_file=config_file,
+        Node(
+            package='ros_gz_bridge',
+            executable='parameter_bridge',
+            arguments=[ ros_topic_name + '@' + ros_msg_type + '@' + gz_msg_type],
+            output='screen',
+        ),
+        #RosGzBridge(
+        #    bridge_name=bridge_name,
+        #    config_file=config_file,
             #use_composition=True,
             #create_own_container=False,
-        ),
+        #),
     ])
 
     return ld
