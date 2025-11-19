@@ -40,6 +40,56 @@
             </collision>
         </link>
 
+        <link name='link'>
+            <pose relative_to='chassis'>0 0 0.06 0 0 0</pose>
+            <visual name='visual'>
+                <geometry>
+                    <box>
+                    <size>0.01 0.02 0.02</size>
+                    </box>
+                </geometry>
+            </visual>
+            <sensor name='my_camera' type='camera'>
+                <always_on>true</always_on>
+                <visualize>true</visualize>
+                <update_rate>30</update_rate>
+                <topic>camera/image_raw</topic>
+                <!--<gz_frame_id>camera_rgb_frame</gz_frame_id> https://robotics.stackexchange.com/questions/115141/how-to-use-a-camera-plugin-in-gazebo-sim -->
+                <camera name="arducam">
+                    <horizontal_fov>1.047</horizontal_fov>
+                    <lens>
+                        <intrinsics>
+                        <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                        <fx>329.9</fx>
+                        <fy>329.9</fy>
+                        <!-- cx = ( width - 1 ) / 2 -->
+                        <cx>359.5</cx>
+                        <!-- cy = ( height - 1 ) / 2 -->
+                        <cy>539.5</cy>
+                        <s>0</s>
+                        </intrinsics>
+                    </lens>
+                    <distortion>
+                        <k1>0.0</k1>
+                        <k2>0.0</k2>
+                        <k3>0.0</k3>
+                        <p1>0.0</p1>
+                        <p2>0.0</p2>
+                        <center>0.5 0.5</center>
+                    </distortion>
+                    <image>
+                        <width>1920</width>
+                        <height>1080</height>
+                        <!--<format>R8G8B8</format>-->
+                    </image>
+                    <clip>
+                        <near>0.1</near>
+                        <far>100</far>
+                    </clip>
+                </camera>
+            </sensor>
+        </link>
+
 	<include>
 		<uri>model://paquito/wheel.sdf</uri>
 		<name>front_left_wheel</name>
@@ -67,21 +117,21 @@
 		<pose relative_to="chassis">-0.0775 0.1 -0.03 1.5707 0 0</pose>
 	</include>
 
-	<joint name='front_left_wheel_joint' type='revolute'>
-		<pose relative_to='front_left_wheel'/>
-		<parent>chassis</parent>
-		<child>front_left_wheel</child>
-		<axis>
-			<!--can be defined as any frame or even arbitrary frames-->
-		        <xyz expressed_in='__model__'>0 1 0</xyz>
-		        <limit>
-				<lower>-1.79769e+308</lower>    <!--negative infinity-->
-				<upper>1.79769e+308</upper>     <!--positive infinity-->
-			</limit>
-		</axis>
-	</joint>
+        <joint name='front_left_wheel_joint' type='revolute'>
+            <pose relative_to='front_left_wheel'/>
+            <parent>chassis</parent>
+            <child>front_left_wheel</child>
+            <axis>
+                <!--can be defined as any frame or even arbitrary frames-->
+                    <xyz expressed_in='__model__'>0 1 0</xyz>
+                    <limit>
+                    <lower>-1.79769e+308</lower>    <!--negative infinity-->
+                    <upper>1.79769e+308</upper>     <!--positive infinity-->
+                </limit>
+            </axis>
+        </joint>
 
-	<joint name='rear_left_wheel_joint' type='revolute'>
+        <joint name='rear_left_wheel_joint' type='revolute'>
                 <pose relative_to='rear_left_wheel'/>
                 <parent>chassis</parent>
                 <child>rear_left_wheel</child>
@@ -95,7 +145,7 @@
                 </axis>
         </joint>
 
-	<joint name='front_right_wheel_joint' type='revolute'>
+        <joint name='front_right_wheel_joint' type='revolute'>
                 <pose relative_to='front_right_wheel'/>
                 <parent>chassis</parent>
                 <child>front_right_wheel</child>
@@ -107,9 +157,9 @@
                                 <upper>1.79769e+308</upper>     <!--positive infinity-->
                         </limit>
                 </axis>
-	</joint>
+        </joint>
 
-	<joint name='rear_right_wheel_joint' type='revolute'>
+        <joint name='rear_right_wheel_joint' type='revolute'>
                 <pose relative_to='rear_right_wheel'/>
                 <parent>chassis</parent>
                 <child>rear_right_wheel</child>
