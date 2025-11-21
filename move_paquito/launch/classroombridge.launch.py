@@ -10,6 +10,7 @@ from launch.substitutions import LaunchConfiguration
 from ros_gz_bridge.actions import RosGzBridge
 
 models_package = 'paquito_models'
+package_name = 'move_paquito'
 
 os.environ['GZ_SIM_RESOURCE_PATH'] = \
     os.path.join( get_package_share_directory(models_package),
@@ -39,6 +40,11 @@ def generate_launch_description():
     # Bridge
     #bridge_name = 'ros_gz_bridge'
     #config_file = 'simplebridge.yaml'
+    bridge_config_file = os.path.join(
+        get_package_share_directory(package_name),
+        'resource',
+        'simplebridge.yaml'
+    )
     ros_topic_name='/keyboard/keypress'
     ros_msg_type='std_msgs/msg/Int32'
     gz_msg_type='gz.msgs.Int32'
@@ -53,16 +59,21 @@ def generate_launch_description():
         Node(
             package='ros_gz_bridge',
             executable='parameter_bridge',
-            arguments=[ ros_topic_name + '@' + ros_msg_type + '@' + gz_msg_type],
+            #arguments=[ ros_topic_name + '@' + ros_msg_type + '@' + gz_msg_type],
+            arguments=[
+                '--ros-args',
+                '-p',
+                f'config_file:={bridge_config_file}',
+            ],
             output='screen',
         ),
-        #RosGzBridge(
-        #    bridge_name=bridge_name,
-        #    config_file=config_file,
-            #use_composition=True,
-            #create_own_container=False,
-        #),
+        ExecuteProcess(
+            cmd=['ros2', 'topic', 'echo', '/keyboard/keypress'],
+            output='screen'
+        ),
     ])
+
+    print("\033[33mEn Gazebo abre el plugin Key Publisher\033[0m")
 
     return ld
 

@@ -1,6 +1,14 @@
-ros_topic_name: "/keyboard/keypress"
-gz_topic_name: "/keyboard/keypress"
-ros_type_name: "std_msgs/msg/Int32"
-gz_type_name: "gz.msgs.Int32"
-direction: BIDIRECTIONAL  #GZ_TO_ROS, BIDIRECTIONAL or ROS_TO_GZ 
+# ros2 topic published by
+- ros_topic_name: "/keyboard/keypress"
+  gz_topic_name: "/keyboard/keypress"
+  ros_type_name: "std_msgs/msg/Int32"
+  gz_type_name: "gz.msgs.Int32"
+  direction: BIDIRECTIONAL  #GZ_TO_ROS, BIDIRECTIONAL or ROS_TO_GZ
+
+# gz topic published by Sensors plugin (Camera)
+- ros_topic_name: "camera/camera_info"
+  gz_topic_name: "camera/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+  direction: GZ_TO_ROS
 
