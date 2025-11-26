@@ -9,8 +9,13 @@ from launch_ros.actions import Node
 from launch.substitutions import LaunchConfiguration
 from ros_gz_bridge.actions import RosGzBridge
 
-models_package = 'paquito_models'
+
+# Packages
 package_name = 'move_paquito'
+models_package = 'paquito_models'
+
+# World
+world_file_name = 'classroom-world.sdf'
 
 os.environ['GZ_SIM_RESOURCE_PATH'] = \
     os.path.join( get_package_share_directory(models_package),
@@ -29,8 +34,6 @@ def generate_launch_description():
     )
 
     # World
-    world_file_name = 'classroom-world.sdf'
-
     world = os.path.join(
         get_package_share_directory(models_package),
         'worlds',
@@ -45,9 +48,9 @@ def generate_launch_description():
         'resource',
         'simplebridge.yaml'
     )
-    ros_topic_name='/keyboard/keypress'
-    ros_msg_type='std_msgs/msg/Int32'
-    gz_msg_type='gz.msgs.Int32'
+    #ros_topic_name='/keyboard/keypress'
+    #ros_msg_type='std_msgs/msg/Int32'
+    #gz_msg_type='gz.msgs.Int32'
 
     # Launch description
     ld =  LaunchDescription([
@@ -65,6 +68,18 @@ def generate_launch_description():
                 '-p',
                 f'config_file:={bridge_config_file}',
             ],
+            output='screen',
+        ),
+        Node(
+            package='joy',
+            executable='joy_node',
+            name='joy_node',
+            output='screen'
+        ),
+        Node(
+            package='game_control',
+            executable='game_control_node',
+            name='game_control',
             output='screen',
         ),
         ExecuteProcess(
