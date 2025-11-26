@@ -57,3 +57,13 @@ ros2 launch paquito_models simpleworld.launch.py
 ros2 launch move_paquito simplebridge.launch.py
 ```
 
+## World and game control
+
+Requires Gazebo mecanum drive controller.
+
+```
+export GZ_SIM_SYSTEM_PLUGIN_PATH=[PATH]/install/mecanum_drive_controller/lib/mecanum_drive_controller/
+ros2 launch move_paquito classroombridge.launch.py
+```
+
+Press play to start simulation

@@ -8,14 +8,14 @@
             <pose relative_to='__model__'>0.0775 0 0.06 0 0 0</pose>
             <inertial> <!--inertial properties of the link mass, inertia matix-->
                 <!--https://amesweb.info/inertia/mass-moment-of-inertia-calculator.aspx-->
-                <mass>0.1</mass>
+                <mass>1</mass>
                 <inertia>
-                    <ixx>0.00005</ixx>
+                    <ixx>0.000501</ixx>
                     <ixy>0</ixy>
                     <ixz>0</ixz>
-                    <iyy>0.00003</iyy>
+                    <iyy>0.0003</iyy>
                     <iyz>0</iyz>
-                    <izz>0.00008</izz>
+                    <izz>0.000801</izz>
                 </inertia>
             </inertial>
             <visual name='visual'>
