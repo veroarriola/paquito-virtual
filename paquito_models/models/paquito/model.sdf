@@ -179,7 +179,7 @@
                 </axis>
         </joint>
 
-        <plugin filename="mecanum_drive_controller" name="gz::sim::systems::MecanumDrive">
+        <plugin filename="gz_mecanum_drive_controller" name="gz::sim::systems::MecanumDrive">
             <!-- wheels -->
             <front_left_joint>front_left_wheel_joint</front_left_joint>
             <front_right_joint>front_right_wheel_joint</front_right_joint>

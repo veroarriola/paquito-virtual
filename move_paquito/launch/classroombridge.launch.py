@@ -1,7 +1,7 @@
 """Launch Gazebo server and client with command line arguments."""
 
 import os
-from ament_index_python.packages import get_package_share_directory
+from ament_index_python.packages import get_package_share_directory, get_package_prefix
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, ExecuteProcess
@@ -17,14 +17,27 @@ models_package = 'paquito_models'
 # World
 world_file_name = 'classroom-world.sdf'
 
+# .-. Environment variables por Gazebo -.-
+
+# Resources
+
 os.environ['GZ_SIM_RESOURCE_PATH'] = \
     os.path.join( get_package_share_directory(models_package),
         'worlds'
     ) + \
-    os.pathsep + os.path.join(
+    os.pathsep + \
+    os.path.join(
         get_package_share_directory(models_package),
         'models'
     )
+
+# Local drivers
+
+os.environ['GZ_SIM_SYSTEM_PLUGIN_PATH'] = \
+    os.path.join( get_package_prefix('gz_mecanum_drive_controller'),
+        'lib/gz_mecanum_drive_controller/'
+    )
+
 
 def generate_launch_description():
     verbose = LaunchConfiguration('v', default='1')
