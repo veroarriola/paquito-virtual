@@ -79,9 +79,13 @@ private:
         geometry_msgs::msg::Twist twist;
 
         if (msg->buttons[SPEED_DOWN]) {
-            speed -= 1;
+            if (speed > MIN_SPEED) {
+                speed -= SPEED_STEP;
+            }
         } else if(msg->buttons[SPEED_UP]) {
-            speed += 1;
+            if (speed < MAX_SPEED) {
+                speed += SPEED_STEP;
+            }
         } else if(msg->buttons[STOP]) {
             speed = 0;
         }
@@ -97,7 +101,10 @@ private:
 
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr _subscription;
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr _vel_publisher;
-    double speed = 0;
+    double speed = 0;               // m/s
+    const double SPEED_STEP = 0.1;
+    const double MAX_SPEED = 1.0;   // m/s
+    const double MIN_SPEED = -1.0;  // m/s
 };
 
 int main(int argc, char * argv[])
