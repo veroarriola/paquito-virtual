@@ -22,6 +22,11 @@ sudo apt install ros-jazzy-ros-gz
 ```
 
 
+## Mecanum Driver
+
+Clone ROS package from [gz_mecanum_drive_controller](https://github.com/veroarriola/gz_mecanum_drive_controller).  Make sure to have the corresponding Gazebo version installed.
+
+
 ## Packages
 
 Created with:
@@ -62,7 +67,6 @@ ros2 launch move_paquito simplebridge.launch.py
 Requires Gazebo mecanum drive controller.
 
 ```
-export GZ_SIM_SYSTEM_PLUGIN_PATH=[PATH]/install/mecanum_drive_controller/lib/mecanum_drive_controller/
 ros2 launch move_paquito classroombridge.launch.py
 ```
 
