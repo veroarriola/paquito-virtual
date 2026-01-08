@@ -15,10 +15,15 @@
 		</inertial>
 		<visual name='visual'>
 			<geometry>
+				<!--
 				<cylinder>
 					<radius>0.0375</radius>
 					<length>0.035</length>
 				</cylinder>
+				-->
+				<mesh>
+					<uri>model://models/paquito/yahboom/front_right_wheel_X3.stl</uri>
+				</mesh>
 			</geometry>
 			<material>
 				<ambient>1.0 1.0 1.0 1</ambient>
@@ -28,10 +33,15 @@
 		</visual>
 		<collision name='collision'>
 			<geometry>
+				<!--
 				<cylinder>
 					<radius>0.0375</radius>
 					<length>0.035</length>
 				</cylinder>
+				-->
+				<mesh>
+					<uri>model://models/paquito/yahboom/front_right_wheel_X3.stl</uri>
+				</mesh>
 			</geometry>
 		</collision>
 	    </link>
