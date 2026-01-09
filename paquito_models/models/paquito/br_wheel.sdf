@@ -15,14 +15,8 @@
 		</inertial>
 		<visual name='visual'>
 			<geometry>
-				<!--
-				<cylinder>
-					<radius>0.0375</radius>
-					<length>0.035</length>
-				</cylinder>
-				-->
 				<mesh>
-					<uri>model://models/paquito/yahboom/front_right_wheel_X3.stl</uri>
+					<uri>model://paquito/yahboom/back_right_wheel_X3.stl</uri>
 				</mesh>
 			</geometry>
 			<material>
@@ -33,14 +27,8 @@
 		</visual>
 		<collision name='collision'>
 			<geometry>
-				<!--
-				<cylinder>
-					<radius>0.0375</radius>
-					<length>0.035</length>
-				</cylinder>
-				-->
 				<mesh>
-					<uri>model://models/paquito/yahboom/front_right_wheel_X3.stl</uri>
+					<uri>model://paquito/yahboom/back_right_wheel_X3.stl</uri>
 				</mesh>
 			</geometry>
 		</collision>

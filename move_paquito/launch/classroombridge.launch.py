@@ -66,7 +66,7 @@ def generate_launch_description():
     #gz_msg_type='gz.msgs.Int32'
 
     # Launch description
-    ld =  LaunchDescription([
+    ld = LaunchDescription([
         pkg_launch_arg,
         ExecuteProcess(
             cmd=['gz', 'sim', '-v', verbose, world_file_name],
