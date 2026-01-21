@@ -3,7 +3,7 @@
     <model name='omni_wheel' canonical_link='body'>
 	    <link name="body">
 		<inertial>
-			<mass>0.1</mass>
+			<mass>9.1</mass>
 			<inertia>
 				<ixx>0.00005</ixx>
 				<ixy>0</ixy>
