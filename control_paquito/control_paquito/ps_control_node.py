@@ -35,7 +35,7 @@ class JoyControl(Node):
         self.get_logger().info(f"Escuchando al control de mando")
 
     def joy_listener_callback(self, msg):
-        #self.get_logger().info(f"Mensaje: {msg}")
+        self.get_logger().info(f"Mensaje: {msg}")
         axes = msg.axes
         buttons = msg.buttons
 
@@ -45,33 +45,39 @@ class JoyControl(Node):
         if axes[7] == 1.0:
             # Flecha arriba: FL
             msg = String()
-            self.get_logger().debug(f"FL")
+            self.get_logger().info(f"FL")
             msg.data = 'FL'
             self.string_command_publisher.publish(msg)
         if axes[6] == -1.0:
             # Flecha a la derecha: FR
             msg = String()
-            self.get_logger().debug(f"FR")
+            self.get_logger().info(f"FR")
             msg.data = 'FR'
             self.string_command_publisher.publish(msg)
         if axes[7] == -1.0:
             # Flecha arriba: RR
             msg = String()
-            self.get_logger().debug(f"RR")
+            self.get_logger().info(f"RR")
             msg.data = 'RR'
             self.string_command_publisher.publish(msg)
         if axes[6] == 1.0:
             # Flecha arriba: RL
             msg = String()
-            self.get_logger().debug(f"RL")
+            self.get_logger().info(f"RL")
             msg.data = 'RL'
             self.string_command_publisher.publish(msg)
 
         if buttons[2] == 1:
             # Triángulo
             msg = String()
-            self.get_logger().debug(f"speak")
+            self.get_logger().info(f"speak")
             msg.data = 'speak'
+            self.string_command_publisher.publish(msg)
+        if buttons[3] == 1:
+            # Cuadrado
+            msg = String()
+            self.get_logger().info(f"stop")
+            msg.data = 'stop'
             self.string_command_publisher.publish(msg)
         else:
             ax_y = axes[0]
@@ -93,7 +99,7 @@ def main(args=None):
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
-        node.get_logger().info("Deteniendo nodo...")
+        node.get_logger().info("Deteniendo nodo ps control...")
     finally:
         node.destroy_node()
         rclpy.shutdown()

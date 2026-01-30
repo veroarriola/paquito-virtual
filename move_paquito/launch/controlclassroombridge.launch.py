@@ -89,10 +89,17 @@ def generate_launch_description():
             name='joy_node',
             output='screen'
         ),
+        #Node(
+        #    package='control_paquito',
+        #    executable='ps_control_node',
+        #    name='ps_control_node',
+        #    output='screen',
+        #),
+        # Nodo para ver imágenes
         Node(
-            package='control_paquito',
-            executable='ps_control_node',
-            name='ps_control_node',
+            package='camera_viewer',
+            executable='viewer_node',
+            name='viewer_node',
             output='screen',
         ),
         Node(
@@ -101,10 +108,10 @@ def generate_launch_description():
             name='game_control',
             output='screen',
         ),
-        ExecuteProcess(
-            cmd=['ros2', 'topic', 'echo', '/keyboard/keypress'],
-            output='screen'
-        ),
+        #ExecuteProcess(
+        #    cmd=['ros2', 'topic', 'echo', '/keyboard/keypress'],
+        #    output='screen'
+        #),
     ])
 
     print("\033[33mEn Gazebo abre el plugin Key Publisher\033[0m")

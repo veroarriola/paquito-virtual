@@ -17,11 +17,19 @@ def generate_launch_description():
 
         # 2. Nodo de Python
         Node(
-            package='control_paquito',
+            package='control_paquito', # Reemplaza con el nombre de tu paquete
             executable='ps_control_node', # Nombre del script definido en setup.py
             name='ps_control_node',
             output='screen',
             emulate_tty=True # Importante para ver los logs en la terminal
+        ),
+
+        # 3. Nodo para ver imágenes
+        Node(
+            package='camera_viewer',
+            executable='viewer_node',
+            name='viewer_node',
+            output='screen',
         )
     ])
 
