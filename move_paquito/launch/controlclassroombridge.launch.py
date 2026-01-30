@@ -89,12 +89,12 @@ def generate_launch_description():
             name='joy_node',
             output='screen'
         ),
-        #Node(
-        #    package='control_paquito',
-        #    executable='ps_control_node',
-        #    name='ps_control_node',
-        #    output='screen',
-        #),
+        Node(
+            package='control_paquito',
+            executable='ps_control_node',
+            name='ps_control_node',
+            output='screen',
+        ),
         # Nodo para ver imágenes
         Node(
             package='camera_viewer',
@@ -102,12 +102,13 @@ def generate_launch_description():
             name='viewer_node',
             output='screen',
         ),
-        Node(
-            package='game_control',
-            executable='game_control_node',
-            name='game_control',
-            output='screen',
-        ),
+        #Node(
+        ## Ilustrativo porque está hecho en C++
+        #    package='game_control',
+        #    executable='game_control_node',
+        #    name='game_control',
+        #    output='screen',
+        #),
         #ExecuteProcess(
         #    cmd=['ros2', 'topic', 'echo', '/keyboard/keypress'],
         #    output='screen'
