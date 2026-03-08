@@ -1,12 +1,15 @@
 """Launch Gazebo server and client with command line arguments."""
 
 import os
+from termcolor import colored
 from ament_index_python.packages import get_package_share_directory, get_package_prefix
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
 from launch_ros.actions import Node
-from launch.substitutions import LaunchConfiguration
+from launch_ros.descriptions import ParameterValue
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import Command, LaunchConfiguration
 from ros_gz_bridge.actions import RosGzBridge
 
 
@@ -15,21 +18,41 @@ package_name = 'move_paquito'
 models_package = 'paquito_models'
 
 # World
+world_models_path = os.path.join(
+    get_package_share_directory(models_package),
+    'worlds'
+)
 world_file_name = 'classroom-world.sdf'
+world_name = 'car_world'
+
+# Robot
+robot_models_path = os.path.join(
+    get_package_share_directory(models_package),
+    'models'
+)
+robot_model_path = os.path.join(
+    robot_models_path,
+    'paquito',
+    'paquito_model.sdf'
+)
+gz_spawn_model_launch_source = os.path.join(
+    get_package_share_directory('ros_gz_sim'),
+    "launch",
+    "gz_spawn_model.launch.py"
+)
+robot_entity_name = 'paquito_bot'
 
 # .-. Environment variables por Gazebo -.-
 
 # Resources
 
+print(colored(os.environ['GZ_SIM_RESOURCE_PATH'], 'yellow'))
+print()
 os.environ['GZ_SIM_RESOURCE_PATH'] = \
-    os.path.join( get_package_share_directory(models_package),
-        'worlds'
-    ) + \
-    os.pathsep + \
-    os.path.join(
-        get_package_share_directory(models_package),
-        'models'
-    )
+    world_models_path + os.pathsep + \
+    robot_models_path + os.pathsep + \
+    os.environ['GZ_SIM_RESOURCE_PATH']
+print(colored(os.environ['GZ_SIM_RESOURCE_PATH'], 'yellow'))
 
 # Local drivers
 
@@ -46,36 +69,41 @@ def generate_launch_description():
         default_value='1'
     )
 
-    # World
-    world = os.path.join(
-        get_package_share_directory(models_package),
-        'worlds',
-        world_file_name
-    )
-
     # Bridge
-    #bridge_name = 'ros_gz_bridge'
-    #config_file = 'simplebridge.yaml'
     bridge_config_file = os.path.join(
         get_package_share_directory(package_name),
         'resource',
         'simplebridge.yaml'
     )
-    #ros_topic_name='/keyboard/keypress'
-    #ros_msg_type='std_msgs/msg/Int32'
-    #gz_msg_type='gz.msgs.Int32'
 
     # Launch description
     ld = LaunchDescription([
         pkg_launch_arg,
+        DeclareLaunchArgument(name='use_sim_time', default_value='True', description='Flag to enable use_sim_time'),
+        DeclareLaunchArgument(name='model', default_value=robot_model_path, description='Absolute path to robot model file'),
         ExecuteProcess(
             cmd=['gz', 'sim', '-v', verbose, world_file_name],
             output='screen',
         ),
         Node(
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            parameters=[
+                {'robot_description': ParameterValue(Command(['xacro ', LaunchConfiguration('model')]), value_type=str)},
+                {'use_sim_time': LaunchConfiguration('use_sim_time')}
+            ]
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(gz_spawn_model_launch_source),
+            launch_arguments={
+                'world': world_name,
+                'topic': '/robot_description',
+                'entity_name': robot_entity_name,
+            }.items(),
+        ),
+        Node(
             package='ros_gz_bridge',
             executable='parameter_bridge',
-            #arguments=[ ros_topic_name + '@' + ros_msg_type + '@' + gz_msg_type],
             arguments=[
                 '--ros-args',
                 '-p',
